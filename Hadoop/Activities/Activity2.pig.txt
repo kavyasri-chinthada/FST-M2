@@ -1,0 +1,7 @@
+inputFile= LOAD 'hdfs:///user/kavya/txtFile.txt' AS (line:chararray);words= FOREACH inputFile GENERATE FLATTEN(TOKENIZE(line)) AS word;
+grpd= GROUP words BY word;
+
+cntd = FOREACH grpd GENERATE group, COUNT(words);
+--rmf 'hdfs:///user/kavya/PigOutput';
+-- Store the result in HDFS
+STORE cntd INTO 'hdfs:///user/kavya/PigOutput';
